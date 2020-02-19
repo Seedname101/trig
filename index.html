@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html> 
+ <head>
+    <title>Trigonometry Practice</title> 
+</head>
+ <body>
+   <h1>Trigonometry Practice</h1>
+    <p align="center"> 
+      <canvas id="mycanvas"></canvas> 
+    </p>
+   
+ </body>
+
+ <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
+ 
+ <script>
+    var sketchProc = function(processingInstance) {
+     with (processingInstance) {
+        size(600, 600); 
+        frameRate(60);
+        
+//NOTES: 1. Reverse engineer the length and the position of the triangle so it can be centered (position of the triangle doesnt matter, it's just the lengths)
+
+var a = new PVector(random(width/3, width-width/3), random(height/3, height-height/3));
+var b = new PVector(random(width/6, width/2), random(height/6, height/2));
+var c = new PVector(random(width/2, width-width/6), random(height/2, height-height/6));
+
+var aClick = 0;
+var bClick = 0;
+var cClick = 0;
+draw = function() {
+
+var lsAB = abs(dist(a.x, a.y, b.x, b.y));
+var lsBC = abs(dist(b.x, b.y, c.x, c.y));
+var lsAC = abs(dist(a.x, a.y, c.x, c.y));
+
+angleMode = "degrees";
+
+background(255, 255, 255);
+
+fill(255, 255, 255);
+triangle(a.x, a.y, b.x, b.y, c.x, c.y);
+noFill();
+ellipse(a.x, a.y, 15, 15);
+ellipse(b.x, b.y, 15, 15);
+ellipse(c.x, c.y, 15, 15);
+
+var aA = lsBC*lsBC;
+var aA1 = (lsAB*lsAB) + (lsAC*lsAC);
+var aA2 = (-2)*(lsAB)*(lsAC);
+var aA3 = (aA-aA1)/aA2;
+var angleA = acos(aA3);
+
+var aB = lsAC*lsAC;
+var aB1 = (lsAB*lsAB) + (lsBC*lsBC);
+var aB2 = (-2)*(lsAB)*(lsBC);
+var aB3 = (aB-aB1)/aB2;
+var angleB = acos(aB3);
+
+var angleC = 180-angleB-angleA;
+
+fill(0, 0, 0);
+textSize(20);
+textAlign(RIGHT, BOTTOM);
+text("A", a.x, a.y);
+textAlign(RIGHT, TOP);
+text("B", b.x, b.y);
+textAlign(LEFT, TOP);
+text("C", c.x, c.y);
+
+textAlign(RIGHT, CENTER);
+text(lsAB, (a.x+b.x)/2, (a.y+b.y)/2);
+textAlign(CENTER, TOP);
+text(lsBC, (b.x+c.x)/2, (b.y+c.y)/2+15);
+textAlign(LEFT, BOTTOM);
+text(lsAC, (a.x+c.x)/2, (a.y+c.y)/2);
+
+textAlign(LEFT, CENTER);
+text("∠A = " + angleA + "°", width-width+10, 25);
+text("∠B = " + angleB + "°", width-width+10, 50);
+text("∠C = " + angleC + "°", width-width+10, 75);
+
+if(aClick === 1){a.x = mouseX;a.y = mouseY;}
+if(aClick >= 2){aClick = 0;}
+
+if(bClick === 1){b.x = mouseX;b.y = mouseY;}
+if(bClick >= 2){bClick = 0;}
+
+if(cClick === 1){c.x = mouseX;c.y = mouseY;}
+if(cClick >= 2){cClick = 0;}
+};
+
+var mouseClicked = function(){
+if(mouseX >= a.x-15/2 && mouseX <= a.x-15/2+15 && mouseY >= a.y-15/2 && mouseY <= a.y-15/2+15){
+    aClick += 1;
+    
+}
+if(mouseX >= b.x-15/2 && mouseX <= b.x-15/2+15 && mouseY >= b.y-15/2 && mouseY <= b.y-15/2+15){
+    bClick += 1;
+    
+}
+if(mouseX >= c.x-15/2 && mouseX <= c.x-15/2+15 && mouseY >= c.y && mouseY <= c.y-15/2+15){
+    cClick += 1;
+    
+}
+};
+    }};
+
+    var canvas = document.getElementById("mycanvas"); 
+
+    var processingInstance = new Processing(canvas, sketchProc); 
+ </script>
+
+</html>
