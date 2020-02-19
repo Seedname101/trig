@@ -19,8 +19,6 @@
      with (processingInstance) {
         size(600, 600); 
         frameRate(60);
-        
-//NOTES: 1. Reverse engineer the length and the position of the triangle so it can be centered (position of the triangle doesnt matter, it's just the lengths)
 
 var a = new PVector(random(width/3, width-width/3), random(height/3, height-height/3));
 var b = new PVector(random(width/6, width/2), random(height/6, height/2));
@@ -29,6 +27,10 @@ var c = new PVector(random(width/2, width-width/6), random(height/2, height-heig
 var aClick = 0;
 var bClick = 0;
 var cClick = 0;
+var argb = color(255, 255, 255);
+var brgb = color(255, 255, 255);
+var crgb = color(255, 255, 255);
+
 draw = function() {
 
 var lsAB = abs(dist(a.x, a.y, b.x, b.y));
@@ -41,9 +43,12 @@ background(255, 255, 255);
 
 fill(255, 255, 255);
 triangle(a.x, a.y, b.x, b.y, c.x, c.y);
-noFill();
+
+fill(argb);
 ellipse(a.x, a.y, 15, 15);
+fill(brgb);
 ellipse(b.x, b.y, 15, 15);
+fill(crgb);
 ellipse(c.x, c.y, 15, 15);
 
 var aA = lsBC*lsBC;
@@ -81,14 +86,14 @@ text("∠A = " + angleA + "°", width-width+10, 25);
 text("∠B = " + angleB + "°", width-width+10, 50);
 text("∠C = " + angleC + "°", width-width+10, 75);
 
-if(aClick === 1){a.x = mouseX;a.y = mouseY;}
-if(aClick >= 2){aClick = 0;}
+if(aClick === 1){a.x = mouseX;a.y = mouseY;argb = color(255, 255, 0);}
+if(aClick >= 2){aClick = 0;argb = color(255, 255, 255);}
 
-if(bClick === 1){b.x = mouseX;b.y = mouseY;}
-if(bClick >= 2){bClick = 0;}
+if(bClick === 1){b.x = mouseX;b.y = mouseY;brgb = color(255, 255, 0);}
+if(bClick >= 2){bClick = 0;brgb = color(255, 255, 255);}
 
-if(cClick === 1){c.x = mouseX;c.y = mouseY;}
-if(cClick >= 2){cClick = 0;}
+if(cClick === 1){c.x = mouseX;c.y = mouseY;crgb = color(255, 255, 0);}
+if(cClick >= 2){cClick = 0;crgb = color(255, 255, 255);}
 };
 
 var mouseClicked = function(){
@@ -105,6 +110,7 @@ if(mouseX >= c.x-15/2 && mouseX <= c.x-15/2+15 && mouseY >= c.y && mouseY <= c.y
     
 }
 };
+
     }};
 
     var canvas = document.getElementById("mycanvas"); 
