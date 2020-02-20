@@ -20,9 +20,12 @@
         size(600, 600); 
         frameRate(60);
 
-var a = new PVector(random(width/3, width-width/3), random(height/3, height-height/3));
-var b = new PVector(random(width/6, width/2), random(height/6, height/2));
-var c = new PVector(random(width/2, width-width/6), random(height/2, height-height/6));
+
+//NOTES: 1. Reverse engineer the length and the position of the triangle so it can be centered (position of the triangle doesnt matter, it's just the lengths)
+
+var a = new PVector(Math.round(random(width/3, width-width/3)), Math.round(random(height/3, height-height/3)));
+var b = new PVector(Math.round(random(width/6, width/2)), Math.round(random(height/6, height/2)));
+var c = new PVector(Math.round(random(width/2), width-width/6), Math.round(random(height/2, height-height/6)));
 
 var aClick = 0;
 var bClick = 0;
@@ -37,12 +40,17 @@ var lsAB = abs(dist(a.x, a.y, b.x, b.y));
 var lsBC = abs(dist(b.x, b.y, c.x, c.y));
 var lsAC = abs(dist(a.x, a.y, c.x, c.y));
 
-angleMode = "degrees";
 
 background(255, 255, 255);
 
 fill(255, 255, 255);
-triangle(a.x, a.y, b.x, b.y, c.x, c.y);
+//AB
+line(a.x, a.y, b.x, b.y);
+//BC
+line(b.x, b.y, c.x, c.y);
+//AC
+line(a.x, a.y, c.x, c.y);
+
 
 fill(argb);
 ellipse(a.x, a.y, 15, 15);
@@ -55,15 +63,18 @@ var aA = lsBC*lsBC;
 var aA1 = (lsAB*lsAB) + (lsAC*lsAC);
 var aA2 = (-2)*(lsAB)*(lsAC);
 var aA3 = (aA-aA1)/aA2;
-var angleA = acos(aA3);
+var aA4 = Math.acos(aA3);
+var angleA = aA4 * (180 / Math.PI);
 
 var aB = lsAC*lsAC;
 var aB1 = (lsAB*lsAB) + (lsBC*lsBC);
 var aB2 = (-2)*(lsAB)*(lsBC);
 var aB3 = (aB-aB1)/aB2;
-var angleB = acos(aB3);
+var aB4 = Math.acos(aB3);
+var angleB = aB4 * (180 / Math.PI);
 
 var angleC = 180-angleB-angleA;
+
 
 fill(0, 0, 0);
 textSize(20);
@@ -82,17 +93,17 @@ textAlign(LEFT, BOTTOM);
 text(lsAC, (a.x+c.x)/2, (a.y+c.y)/2);
 
 textAlign(LEFT, CENTER);
-text("∠A = " + angleA + "°", width-width+10, 25);
-text("∠B = " + angleB + "°", width-width+10, 50);
-text("∠C = " + angleC + "°", width-width+10, 75);
+text("∠A = ~" + angleA.toFixed(2) + "°", width-width+10, 25);
+text("∠B = ~" + angleB.toFixed(2) + "°", width-width+10, 50);
+text("∠C = ~" + angleC.toFixed(2) + "°", width-width+10, 75);
 
-if(aClick === 1){a.x = mouseX;a.y = mouseY;argb = color(255, 255, 0);}
+if(aClick === 1){a.x = Math.round(mouseX);a.y = Math.round(mouseY);argb = color(255, 255, 0);}
 if(aClick >= 2){aClick = 0;argb = color(255, 255, 255);}
 
-if(bClick === 1){b.x = mouseX;b.y = mouseY;brgb = color(255, 255, 0);}
+if(bClick === 1){b.x = Math.round(mouseX);b.y = Math.round(mouseY);brgb = color(255, 255, 0);}
 if(bClick >= 2){bClick = 0;brgb = color(255, 255, 255);}
 
-if(cClick === 1){c.x = mouseX;c.y = mouseY;crgb = color(255, 255, 0);}
+if(cClick === 1){c.x = Math.round(mouseX);c.y = Math.round(mouseY);crgb = color(255, 255, 0);}
 if(cClick >= 2){cClick = 0;crgb = color(255, 255, 255);}
 };
 
@@ -110,6 +121,7 @@ if(mouseX >= c.x-15/2 && mouseX <= c.x-15/2+15 && mouseY >= c.y && mouseY <= c.y
     
 }
 };
+
 
     }};
 
